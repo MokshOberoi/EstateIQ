@@ -76,11 +76,45 @@ async function getLeadHistory(req, res, next) {
   }
 }
 
+/** POST /leads/:userId/predict - ADMIN only */
+async function predictLead(req, res, next) {
+  try {
+    const { userId } = req.params;
+    const { error } = validateUuid(userId);
+    if (error) return sendError(res, error.message, 400);
+
+    const ruleProfile = await leadService.getLeadProfile(userId);
+    if (!ruleProfile) return sendError(res, 'Lead profile not found', 404);
+
+    // Build feature payload matching the ML model schema
+    const features = {
+      total_views: ruleProfile.total_views || 0,
+      total_favourites: ruleProfile.total_favourites || 0,
+      total_enquiries: ruleProfile.total_enquiries || 0,
+      total_dwell_time: ruleProfile.total_dwell_time || 0,
+      engagement_score: ruleProfile.engagement_score,
+      recency_score: ruleProfile.recency_score,
+      intent_score: ruleProfile.intent_score,
+    };
+
+    const mlResult = await predict(features);
+    return sendSuccess(res, 'Lead prediction', {
+      ruleBasedProfile: ruleProfile,
+      mlPrediction: mlResult,
+    });
+  } catch (err) {
+    next(err);
+  }
+}
+
+const { predict } = require('../services/mlPredictionService');
+
 module.exports = {
   calculateLead,
   getLeadProfile,
   getMyLeadProfile,
   listLeads,
   getLeadHistory,
+  predictLead,
 };
 

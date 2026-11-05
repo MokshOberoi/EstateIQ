@@ -8,6 +8,7 @@ const {
   getMyLeadProfile,
   listLeads,
   getLeadHistory,
+  predictLead,
 } = require('../controllers/leadController');
 
 const router = express.Router();
