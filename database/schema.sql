@@ -375,3 +375,4 @@ CREATE INDEX IF NOT EXISTS idx_lead_score_history_calculated_at ON lead_score_hi
 -- Recommendations
 CREATE INDEX IF NOT EXISTS idx_recommendations_user_rank ON recommendations (user_id, rank ASC);
 CREATE INDEX IF NOT EXISTS idx_recommendations_property_id ON recommendations (property_id);
+

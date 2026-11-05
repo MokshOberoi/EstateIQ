@@ -102,3 +102,4 @@ UNION ALL SELECT 'user_interactions', count(*) FROM user_interactions
 UNION ALL SELECT 'lead_profiles', count(*) FROM lead_profiles
 UNION ALL SELECT 'recommendations', count(*) FROM recommendations;
 ```
+

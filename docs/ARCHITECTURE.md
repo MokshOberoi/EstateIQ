@@ -84,3 +84,4 @@ EstateIQ is an intelligent, full-stack real estate platform that combines high-f
                                        v
             [Agent views Lead Dashboard: Sees Real-time Hot/Warm/Cold]
 ```
+
