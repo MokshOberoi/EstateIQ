@@ -42,6 +42,7 @@ app.use(express.urlencoded({ extended: true, limit: '1mb' }));
 // ============================================================================
 
 app.use('/api/v1', healthRoutes);
+app.use('/api/v1', require('./routes/propertyRoutes'));
 app.use('/api/v1/auth', authRoutes);
 
 // Root route welcome banner
