@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const healthRoutes = require('./routes/healthRoutes');
+const authRoutes = require('./routes/authRoutes');
 const notFound = require('./middleware/notFound');
 const errorHandler = require('./middleware/errorHandler');
 
@@ -41,6 +42,7 @@ app.use(express.urlencoded({ extended: true, limit: '1mb' }));
 // ============================================================================
 
 app.use('/api/v1', healthRoutes);
+app.use('/api/v1/auth', authRoutes);
 
 // Root route welcome banner
 app.get('/', (req, res) => {
@@ -63,3 +65,4 @@ app.use(notFound);
 app.use(errorHandler);
 
 module.exports = app;
+

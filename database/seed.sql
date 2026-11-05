@@ -3,7 +3,7 @@
 -- Version: 1.0.0
 -- Description: Realistic initial data for testing, development, and ML scoring
 -- Default mock password for all seed accounts: Password123!
--- (Bcrypt hash: $2a$12$K1r6fN2Q9zK9j3YJ5z5ZMeT0q1wX8b3v9.H7m9yW1x3v5ZMeT0q1w)
+-- (Bcrypt hash: $2b$12$N0J3yHQUZ8x8nMoIFLjqAu2xSqZujBJGdlPlqAZFjwiqfc/mrriBW)
 -- ============================================================================
 
 -- Clean up existing data in reverse dependency order
@@ -36,17 +36,17 @@ INSERT INTO amenities (id, name, category, icon_name) VALUES
 
 INSERT INTO users (id, email, password_hash, full_name, phone, role, avatar_url) VALUES
     -- Admin
-    ('10000000-0000-0000-0000-000000000001', 'admin@estateiq.com', '$2a$12$4L3u3K.kQ02Pz0uJ3gJk.u6fVvYk2lJk.u6fVvYk2lJk.u6fVvYk2', 'Arthur Pendelton', '+1 (555) 010-0001', 'ADMIN', 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400'),
+    ('10000000-0000-0000-0000-000000000001', 'admin@estateiq.com', '$2b$12$N0J3yHQUZ8x8nMoIFLjqAu2xSqZujBJGdlPlqAZFjwiqfc/mrriBW', 'Arthur Pendelton', '+1 (555) 010-0001', 'ADMIN', 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400'),
     
     -- Agents
-    ('10000000-0000-0000-0000-000000000002', 'sarah.jenkins@estateiq.com', '$2a$12$4L3u3K.kQ02Pz0uJ3gJk.u6fVvYk2lJk.u6fVvYk2lJk.u6fVvYk2', 'Sarah Jenkins', '+1 (555) 012-3456', 'AGENT', 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400'),
-    ('10000000-0000-0000-0000-000000000003', 'marcus.vance@estateiq.com', '$2a$12$4L3u3K.kQ02Pz0uJ3gJk.u6fVvYk2lJk.u6fVvYk2lJk.u6fVvYk2', 'Marcus Vance', '+1 (555) 012-7890', 'AGENT', 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400'),
+    ('10000000-0000-0000-0000-000000000002', 'sarah.jenkins@estateiq.com', '$2b$12$N0J3yHQUZ8x8nMoIFLjqAu2xSqZujBJGdlPlqAZFjwiqfc/mrriBW', 'Sarah Jenkins', '+1 (555) 012-3456', 'AGENT', 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400'),
+    ('10000000-0000-0000-0000-000000000003', 'marcus.vance@estateiq.com', '$2b$12$N0J3yHQUZ8x8nMoIFLjqAu2xSqZujBJGdlPlqAZFjwiqfc/mrriBW', 'Marcus Vance', '+1 (555) 012-7890', 'AGENT', 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400'),
     
     -- Buyers (representing varied engagement profiles)
-    ('10000000-0000-0000-0000-000000000004', 'alexander.wright@gmail.com', '$2a$12$4L3u3K.kQ02Pz0uJ3gJk.u6fVvYk2lJk.u6fVvYk2lJk.u6fVvYk2', 'Alexander Wright', '+1 (555) 432-1098', 'BUYER', 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400'),
-    ('10000000-0000-0000-0000-000000000005', 'elena.rostova@gmail.com', '$2a$12$4L3u3K.kQ02Pz0uJ3gJk.u6fVvYk2lJk.u6fVvYk2lJk.u6fVvYk2', 'Elena Rostova', '+1 (555) 654-3210', 'BUYER', 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400'),
-    ('10000000-0000-0000-0000-000000000006', 'jordan.bell@outlook.com', '$2a$12$4L3u3K.kQ02Pz0uJ3gJk.u6fVvYk2lJk.u6fVvYk2lJk.u6fVvYk2', 'Jordan Bell', '+1 (555) 789-0123', 'BUYER', 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400'),
-    ('10000000-0000-0000-0000-000000000007', 'david.kim@gmail.com', '$2a$12$4L3u3K.kQ02Pz0uJ3gJk.u6fVvYk2lJk.u6fVvYk2lJk.u6fVvYk2', 'David Kim', '+1 (555) 890-1234', 'BUYER', 'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=400');
+    ('10000000-0000-0000-0000-000000000004', 'alexander.wright@gmail.com', '$2b$12$N0J3yHQUZ8x8nMoIFLjqAu2xSqZujBJGdlPlqAZFjwiqfc/mrriBW', 'Alexander Wright', '+1 (555) 432-1098', 'BUYER', 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400'),
+    ('10000000-0000-0000-0000-000000000005', 'elena.rostova@gmail.com', '$2b$12$N0J3yHQUZ8x8nMoIFLjqAu2xSqZujBJGdlPlqAZFjwiqfc/mrriBW', 'Elena Rostova', '+1 (555) 654-3210', 'BUYER', 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400'),
+    ('10000000-0000-0000-0000-000000000006', 'jordan.bell@outlook.com', '$2b$12$N0J3yHQUZ8x8nMoIFLjqAu2xSqZujBJGdlPlqAZFjwiqfc/mrriBW', 'Jordan Bell', '+1 (555) 789-0123', 'BUYER', 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400'),
+    ('10000000-0000-0000-0000-000000000007', 'david.kim@gmail.com', '$2b$12$N0J3yHQUZ8x8nMoIFLjqAu2xSqZujBJGdlPlqAZFjwiqfc/mrriBW', 'David Kim', '+1 (555) 890-1234', 'BUYER', 'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=400');
 
 -- ============================================================================
 -- 3. SEED PROPERTIES

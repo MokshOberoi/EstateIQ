@@ -43,3 +43,4 @@ const getHealth = async (req, res, next) => {
 module.exports = {
   getHealth,
 };
+
