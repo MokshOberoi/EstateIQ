@@ -1,19 +1,28 @@
 // src/services/api.js
 // Centralized API configuration for EstateIQ frontend.
-// Uses VITE_API_BASE_URL if defined (Vite injects env vars prefixed with VITE_), otherwise falls back to the development default.
+// Uses VITE_API_BASE_URL if defined, otherwise defaults.
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL?.replace(/\/+$/, "") || "http://localhost:5000/api/v1";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL?.replace(/\\/+$/, "") || "http://localhost:5000/api/v1";
+
+// Helper to retrieve stored access token
+function getAccessToken() {
+  return localStorage.getItem("estateiq_access_token");
+}
 
 /**
- * Simple wrapper around fetch that prefixes the base URL and handles JSON responses.
- * Returns an object { ok, status, data } where `data` is the parsed JSON (or null on error).
+ * Wrapper around fetch that prefixes the base URL and adds JSON handling.
+ * Automatically injects Authorization header when a token is present.
  */
 export async function apiRequest(path, options = {}) {
   const url = `${API_BASE_URL}${path}`;
+
+  const token = getAccessToken();
+  const authHeader = token ? { Authorization: `Bearer ${token}` } : {};
+
   const response = await fetch(url, {
     headers: {
       "Content-Type": "application/json",
-      // Add Authorization header here if needed in future (e.g., Bearer token)
+      ...authHeader,
       ...(options.headers || {}),
     },
     ...options,
@@ -23,9 +32,8 @@ export async function apiRequest(path, options = {}) {
   try {
     json = await response.json();
   } catch (e) {
-    // Non‑JSON response (unlikely for this API)
+    // ignore non‑JSON bodies
   }
 
   return { ok: response.ok, status: response.status, data: json };
 }
-

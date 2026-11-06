@@ -1,14 +1,24 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 const RegisterPage = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [phone, setPhone] = useState('');
+  const [submitting, setSubmitting] = useState(false);
+  const navigate = useNavigate();
+  const { register, error, loading } = useAuth();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert('Registration submitted (no backend).');
+    setSubmitting(true);
+    const result = await register({ name, email, password, phone });
+    setSubmitting(false);
+    if (result.success) {
+      navigate('/dashboard');
+    }
   };
 
   return (
@@ -28,8 +38,15 @@ const RegisterPage = () => {
             Password
             <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
           </label>
-          <button type="submit" className="btn-primary">Register</button>
+          <label>
+            Phone
+            <input type="text" value={phone} onChange={(e) => setPhone(e.target.value)} required />
+          </label>
+          <button type="submit" className="btn-primary" disabled={submitting || loading}>
+            {submitting || loading ? 'Registering…' : 'Register'}
+          </button>
         </form>
+        {error && <p className="error" style={{ color: 'red' }}>{error}</p>}
         <p className="auth-switch">
           Already have an account? <Link to="/login" className="link-secondary">Login</Link>
         </p>
