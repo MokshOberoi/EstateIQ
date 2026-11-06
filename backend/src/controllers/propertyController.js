@@ -35,7 +35,7 @@ async function getMyListings(req, res, next) {
     const { page = 1, limit = 20 } = req.query;
     const userId = req.user.id;
     const result = await propertyService.listMyProperties(userId, { page: Number(page), limit: Number(limit) });
-    return apiResponse.success(res, {
+    return sendSuccess(res, {
       data: result.rows,
       pagination: paginationMeta(Number(page), Number(limit), result.total),
     });
@@ -52,7 +52,7 @@ async function createProperty(req, res, next) {
 
     const user = req.user; // contains id and role
     const created = await propertyService.createProperty(value, user);
-    return apiResponse.success(res, { data: created }, 201);
+    return sendSuccess(res, { data: created }, 201);
   } catch (err) {
     next(err);
   }
@@ -67,9 +67,9 @@ async function updateProperty(req, res, next) {
 
     const user = req.user;
     const updated = await propertyService.updateProperty(id, value, user);
-    if (updated === null) return apiResponse.error(res, 'Property not found', 404);
-    if (updated === false) return apiResponse.error(res, 'Forbidden: you do not own this property', 403);
-    return apiResponse.success(res, { data: updated });
+    if (updated === null) return sendError(res, 'Property not found', 404);
+    if (updated === false) return sendError(res, 'Forbidden: you do not own this property', 403);
+    return sendSuccess(res, { data: updated });
   } catch (err) {
     next(err);
   }
@@ -81,9 +81,9 @@ async function deleteProperty(req, res, next) {
     const { id } = req.params;
     const user = req.user;
     const result = await propertyService.deleteProperty(id, user);
-    if (result === null) return apiResponse.error(res, 'Property not found', 404);
-    if (result === false) return apiResponse.error(res, 'Forbidden: you do not own this property', 403);
-    return apiResponse.success(res, { message: 'Property deleted successfully' });
+    if (result === null) return sendError(res, 'Property not found', 404);
+    if (result === false) return sendError(res, 'Forbidden: you do not own this property', 403);
+    return sendSuccess(res, { message: 'Property deleted successfully' });
   } catch (err) {
     next(err);
   }
