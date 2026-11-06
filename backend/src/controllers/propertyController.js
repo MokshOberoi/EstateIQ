@@ -11,7 +11,7 @@ async function getAllProperties(req, res, next) {
     if (error) return sendError(res, error.message, 400);
 
     const result = await propertyService.listProperties(value);
-    return sendSuccess(res, { data: result.rows, pagination: paginationMeta(value.page, value.limit, result.total) });
+    return sendSuccess(res, 'Properties retrieved successfully', { data: result.rows, pagination: paginationMeta(value.page, value.limit, result.total) });
   } catch (err) {
     next(err);
   }
@@ -23,7 +23,7 @@ async function getPropertyById(req, res, next) {
     const { id } = req.params;
     const property = await propertyService.getPropertyDetails(id);
     if (!property) return sendError(res, 'Property not found', 404);
-    return sendSuccess(res, { data: property });
+    return sendSuccess(res, 'Property retrieved successfully', { data: property });
   } catch (err) {
     next(err);
   }
@@ -35,10 +35,7 @@ async function getMyListings(req, res, next) {
     const { page = 1, limit = 20 } = req.query;
     const userId = req.user.id;
     const result = await propertyService.listMyProperties(userId, { page: Number(page), limit: Number(limit) });
-    return sendSuccess(res, {
-      data: result.rows,
-      pagination: paginationMeta(Number(page), Number(limit), result.total),
-    });
+    return sendSuccess(res, 'My listings retrieved successfully', { data: result.rows, pagination: paginationMeta(Number(page), Number(limit), result.total) });
   } catch (err) {
     next(err);
   }
@@ -52,7 +49,7 @@ async function createProperty(req, res, next) {
 
     const user = req.user; // contains id and role
     const created = await propertyService.createProperty(value, user);
-    return sendSuccess(res, { data: created }, 201);
+    return sendSuccess(res, "Property created successfully", { data: created }, 201);
   } catch (err) {
     next(err);
   }
@@ -69,7 +66,7 @@ async function updateProperty(req, res, next) {
     const updated = await propertyService.updateProperty(id, value, user);
     if (updated === null) return sendError(res, 'Property not found', 404);
     if (updated === false) return sendError(res, 'Forbidden: you do not own this property', 403);
-    return sendSuccess(res, { data: updated });
+    return sendSuccess(res, "Property updated successfully", { data: updated });
   } catch (err) {
     next(err);
   }
@@ -83,7 +80,7 @@ async function deleteProperty(req, res, next) {
     const result = await propertyService.deleteProperty(id, user);
     if (result === null) return sendError(res, 'Property not found', 404);
     if (result === false) return sendError(res, 'Forbidden: you do not own this property', 403);
-    return sendSuccess(res, { message: 'Property deleted successfully' });
+    return sendSuccess(res, 'Property deleted successfully');
   } catch (err) {
     next(err);
   }

@@ -24,6 +24,13 @@ const Navbar = () => {
               <li><NavLink to="/dashboard">Dashboard</NavLink></li>
               <li><NavLink to="/lead-profile">Lead Profile</NavLink></li>
               <li><NavLink to="/recommendations">Recommendations</NavLink></li>
+              {/* Agent/Admin management links */}
+              {(user.role === 'AGENT' || user.role === 'ADMIN') && (
+                <>
+                  <li><NavLink to="/my-listings">My Listings</NavLink></li>
+                  <li><NavLink to="/properties/create">Add Property</NavLink></li>
+                </>
+              )}
               <li><button onClick={handleLogout} className="btn-link">Logout</button></li>
             </>
           )}
