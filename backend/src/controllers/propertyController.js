@@ -23,7 +23,7 @@ async function getPropertyById(req, res, next) {
     const { id } = req.params;
     const property = await propertyService.getPropertyDetails(id);
     if (!property) return sendError(res, 'Property not found', 404);
-    return apiResponse.success(res, { data: property });
+    return sendSuccess(res, { data: property });
   } catch (err) {
     next(err);
   }
