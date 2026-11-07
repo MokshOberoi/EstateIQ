@@ -46,7 +46,13 @@ const PropertyDetailPage = () => {
   }
 
   const location = property.city && property.state ? `${property.city}, ${property.state}` : property.location || '';
-  const imageUrl = property.image_url || property.img || '';
+  // Determine primary image safely
+  const primaryImgObj = property.images?.find(img => img.is_primary) || property.images?.[0];
+  const imageUrl = primaryImgObj?.image_url || '';
+
+  // Format price as USD currency
+  const formattedPrice = property.price ? new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(parseFloat(property.price)) : '';
+
 
   return (
     <section className="page-section">
@@ -54,9 +60,37 @@ const PropertyDetailPage = () => {
         <h2 className="section-title">{property.title}</h2>
         <div className="detail-grid">
           <img src={imageUrl} alt={property.title} className="detail-image" />
+          {/* Image Gallery */}
+          {property.images && property.images.length > 1 && (
+            <div className="image-gallery" style={{ marginTop: '1rem', display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
+              {property.images
+                .slice()
+                .sort((a, b) => (a.display_order || 0) - (b.display_order || 0))
+                .map((imgObj, idx) => (
+                  <img
+                    key={imgObj.id || idx}
+                    src={imgObj.image_url}
+                    alt={imgObj.caption || `Property image ${idx + 1}`}
+                    className="card-image"
+                    style={{ width: '120px', height: '80px', objectFit: 'cover', borderRadius: '4px' }}
+                  />
+                ))}
+            </div>
+          )}
+          {/* Amenities */}
+          {property.amenities && property.amenities.length > 0 && (
+            <div className="amenities" style={{ marginTop: '1rem' }}>
+              <h3 style={{ marginBottom: '0.5rem' }}>Amenities</h3>
+              <ul style={{ listStyle: 'disc', paddingLeft: '1.5rem' }}>
+                {property.amenities.map((amen, idx) => (
+                  <li key={amen.id || idx}>{amen.name}</li>
+                ))}
+              </ul>
+            </div>
+          )}
           <div className="detail-info">
             <p><strong>Location:</strong> {location}</p>
-            <p><strong>Price:</strong> {property.price}</p>
+            <p><strong>Price:</strong> {formattedPrice}</p>
             <p><strong>Description:</strong> {property.description || 'No description provided.'}</p>
             <p><strong>Bedrooms:</strong> {property.bedrooms ?? 'N/A'}</p>
             <p><strong>Bathrooms:</strong> {property.bathrooms ?? 'N/A'}</p>

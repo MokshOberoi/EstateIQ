@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import PropertyImageUpload from "../components/PropertyImageUpload";
+import PropertyForm from "../components/PropertyForm";
 import { apiRequest } from "../services/api";
 
 /**
@@ -82,7 +83,7 @@ const EditPropertyPage = () => {
     <section className="page-section">
       <div className="container">
         <h2 className="section-title">Edit Property</h2>
-                <PropertyForm mode="edit" initialValues={property} onSubmit={submitWrapper} />
+        <PropertyForm mode="edit" initialValues={property} onSubmit={submitWrapper} />
         {property && (
           <div style={{ marginTop: '2rem' }}>
             <h3>Manage Images</h3>

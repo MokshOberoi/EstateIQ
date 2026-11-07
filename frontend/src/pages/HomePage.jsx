@@ -1,4 +1,5 @@
 import React from 'react';
+import aiImage from '../assets/ai-personalization.jpg';
 import { Link } from 'react-router-dom';
 import PropertyCard from '../components/PropertyCard';
 import { properties } from '../data/properties';
@@ -68,7 +69,7 @@ const HomePage = () => (
         </div>
         <div className="ai-image">
           <img
-            src="https://images.unsplash.com/photo-1505691723518-36a6bd4ed1aa?auto=format&fit=crop&w=600&q=80"
+            src={aiImage}
             alt="AI personalisation illustration"
           />
         </div>
