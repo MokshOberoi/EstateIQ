@@ -14,7 +14,7 @@ const LeadProfilePage = () => {
       try {
         const response = await apiRequest("/leads/me");
         if (response.ok && response.data?.data) {
-          setProfile(response.data.message.data);
+          setProfile(response.data?.data || null);
         } else {
           setError(response.data?.error?.message || "Failed to load lead profile");
         }

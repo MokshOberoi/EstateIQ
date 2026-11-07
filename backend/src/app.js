@@ -46,7 +46,7 @@ app.use('/api/v1', healthRoutes);
 app.use('/api/v1', require('./routes/propertyRoutes'));
 app.use('/api/v1', require('./routes/propertyImageRoutes'));
 // Serve uploaded property images statically
-app.use('/uploads/properties', express.static(path.join(__dirname, '../../uploads/properties')));
+app.use('/uploads/properties', express.static(path.join(__dirname, '../uploads/properties')));
 app.use('/api/v1', require('./routes/leadRoutes'));
 app.use('/api/v1', require('./routes/recommendationRoutes'));
 app.use('/api/v1/auth', authRoutes);

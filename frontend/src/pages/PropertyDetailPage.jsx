@@ -14,7 +14,7 @@ const PropertyDetailPage = () => {
       try {
         const response = await apiRequest(`/properties/${id}`);
         if (response.ok && response.data && response.data.success) {
-          setProperty(response.data.message?.data || null);
+          setProperty(response.data?.data?.data || null);
         } else {
           setError('Failed to load property');
         }

@@ -50,8 +50,8 @@ export const AuthProvider = ({ children }) => {
         const msg = response.data?.error?.message || "Login failed";
         throw new Error(msg);
       }
-      const userData = response.data?.message?.user;
-      const tokens = response.data?.message?.tokens;
+      const userData = response.data?.data?.user;
+      const tokens = response.data?.data?.tokens;
       persistAuth(userData, tokens);
       setLoading(false);
       return { success: true };
@@ -74,8 +74,8 @@ export const AuthProvider = ({ children }) => {
         const msg = response.data?.error?.message || "Registration failed";
         throw new Error(msg);
       }
-      const newUser = response.data?.message?.user;
-      const tokens = response.data?.message?.tokens;
+      const newUser = response.data?.data?.user;
+      const tokens = response.data?.data?.tokens;
       persistAuth(newUser, tokens);
       setLoading(false);
       return { success: true };
@@ -109,7 +109,7 @@ export const AuthProvider = ({ children }) => {
         body: JSON.stringify({ refreshToken: storedRefresh }),
       });
       if (!response.ok) throw new Error("Refresh failed");
-      const newTokens = response.data?.message?.tokens;
+      const newTokens = response.data?.data?.tokens;
       persistAuth(null, newTokens); // only update tokens
       return true;
     } catch (e) {
@@ -143,7 +143,7 @@ export const AuthProvider = ({ children }) => {
         }
       }
       if (response.ok) {
-        const freshUser = response.data?.message?.user;
+        const freshUser = response.data?.data?.user;
         setUser(freshUser);
         localStorage.setItem("estateiq_user", JSON.stringify(freshUser));
       } else {

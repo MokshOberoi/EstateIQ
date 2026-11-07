@@ -24,9 +24,13 @@ export async function apiRequest(path, options = {}) {
   const url = `${API_BASE_URL}${path}`;
 
   const token = getAccessToken();
-  const defaultHeaders = {
-    "Content-Type": "application/json",
-  };
+  const isFormData = typeof FormData !== "undefined" && options.body instanceof FormData;
+
+  const defaultHeaders = {};
+  if (!isFormData) {
+    defaultHeaders["Content-Type"] = "application/json";
+  }
+
   // Add Authorization only if token exists and caller hasn't set one already.
   if (token && !(options.headers && options.headers.Authorization)) {
     defaultHeaders["Authorization"] = `Bearer ${token}`;
@@ -36,6 +40,11 @@ export async function apiRequest(path, options = {}) {
     ...defaultHeaders,
     ...(options.headers || {}),
   };
+
+  // Ensure browser sets multipart/form-data boundary automatically when using FormData
+  if (isFormData) {
+    delete mergedHeaders["Content-Type"];
+  }
 
   const response = await fetch(url, {
     ...options,

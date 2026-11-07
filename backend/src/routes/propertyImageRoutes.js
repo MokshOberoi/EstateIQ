@@ -15,10 +15,10 @@ const {
 const router = express.Router();
 
 // All routes require authentication. AGENT and ADMIN can manage their own properties; ADMIN can manage any.
-router.post('/:id/images', authenticate, authorizeRoles('AGENT', 'ADMIN'), upload.array('images', 10), uploadImages);
-router.get('/:id/images', authenticate, authorizeRoles('AGENT', 'ADMIN'), getPropertyImages);
-router.delete('/:id/images/:imageId', authenticate, authorizeRoles('AGENT', 'ADMIN'), deleteImage);
-router.patch('/:id/images/:imageId/primary', authenticate, authorizeRoles('AGENT', 'ADMIN'), setPrimaryImage);
+router.post('/properties/:id/images', authenticate, authorizeRoles('AGENT', 'ADMIN'), upload.array('images', 10), uploadImages);
+router.get('/properties/:id/images', authenticate, authorizeRoles('AGENT', 'ADMIN'), getPropertyImages);
+router.delete('/properties/:id/images/:imageId', authenticate, authorizeRoles('AGENT', 'ADMIN'), deleteImage);
+router.patch('/properties/:id/images/:imageId/primary', authenticate, authorizeRoles('AGENT', 'ADMIN'), setPrimaryImage);
 
 module.exports = router;
 

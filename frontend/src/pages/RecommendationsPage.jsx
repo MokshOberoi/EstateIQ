@@ -17,7 +17,7 @@ const RecommendationsPage = () => {
     try {
       const response = await apiRequest("/recommendations/me");
       if (response.ok && response.data?.data?.items) {
-        setItems(response.data.message.data.items);
+        setItems(response.data?.data?.items || []);
       } else {
         setError(response.data?.error?.message || "Failed to load recommendations");
       }

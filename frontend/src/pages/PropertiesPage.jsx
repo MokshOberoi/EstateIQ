@@ -13,7 +13,7 @@ const PropertiesPage = () => {
       try {
         const response = await apiRequest('/properties');
         if (response.ok && response.data && response.data.success) {
-          setProperties(response.data.message?.data || []);
+          setProperties(response.data?.data?.data || []);
         } else {
           setError('Failed to load properties');
         }

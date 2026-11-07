@@ -21,7 +21,7 @@ const EditPropertyPage = () => {
       try {
         const response = await apiRequest(`/properties/${id}`);
         if (response.ok) {
-          // Backend envelope: response.data?.message?.data
+          // Backend envelope: response.data?.data?.data
           const data = response.data?.data?.data || {};
           setProperty(data);
         } else {
