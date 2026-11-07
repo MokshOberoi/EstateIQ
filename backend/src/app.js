@@ -49,6 +49,7 @@ app.use('/api/v1', require('./routes/propertyImageRoutes'));
 app.use('/uploads/properties', express.static(path.join(__dirname, '../uploads/properties')));
 app.use('/api/v1', require('./routes/leadRoutes'));
 app.use('/api/v1', require('./routes/recommendationRoutes'));
+app.use('/api/v1', require('./routes/enquiryRoutes'));
 app.use('/api/v1/auth', authRoutes);
 
 // Root route welcome banner
