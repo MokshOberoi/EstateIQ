@@ -1,7 +1,8 @@
 // src/pages/PropertyDetailPage.jsx
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { apiRequest } from '../services/api';
+import { trackInteraction } from '../services/interactionTracking';
 
 const PropertyDetailPage = () => {
   const { id } = useParams();
@@ -9,6 +10,27 @@ const PropertyDetailPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // Ref to store mount timestamp and ensure single send
+  const startTimeRef = useRef(null);
+  const sentRef = useRef(false);
+
+  // Track PROPERTY_VIEW on unmount
+  useEffect(() => {
+    startTimeRef.current = Date.now();
+    return () => {
+      if (sentRef.current) return;
+      const endTime = Date.now();
+      const dwellMs = endTime - (startTimeRef.current || endTime);
+      const dwellSec = Math.max(0, Math.floor(dwellMs / 1000));
+      trackInteraction({
+        event_type: 'PROPERTY_VIEW',
+        property_id: id,
+        dwell_time_seconds: dwellSec,
+        metadata: { source: 'property_detail_page' },
+      }).catch(() => {});
+      sentRef.current = true;
+    };
+  }, [id]);
   useEffect(() => {
     const fetchProperty = async () => {
       try {
