@@ -25,5 +25,6 @@ router.get('/leads/:userId/history', authorizeRoles('ADMIN'), getLeadHistory);
 // Buyer (or any authenticated) own lead profile
 router.get('/leads/me', getMyLeadProfile);
 
-module.exports = router;
+// Predict lead classification via ML service (admin only)
+router.post('/leads/:userId/predict', authorizeRoles('ADMIN'), predictLead);
 

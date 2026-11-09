@@ -97,11 +97,16 @@ async function predictLead(req, res, next) {
       intent_score: ruleProfile.intent_score,
     };
 
-    const mlResult = await predict(features);
-    return sendSuccess(res, 'Lead prediction', {
-      ruleBasedProfile: ruleProfile,
-      mlPrediction: mlResult,
-    });
+    try {
+      const mlResult = await predict(features);
+      return sendSuccess(res, 'Lead prediction', {
+        ruleBasedProfile: ruleProfile,
+        mlPrediction: mlResult,
+      });
+    } catch (mlErr) {
+      // Gracefully handle ML service failures
+      return sendError(res, 'ML prediction failed', 502, { detail: mlErr.message });
+    }
   } catch (err) {
     next(err);
   }
