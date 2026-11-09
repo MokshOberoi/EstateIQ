@@ -52,6 +52,7 @@ app.use('/api/v1', require('./routes/leadRoutes'));
 app.use('/api/v1', require('./routes/favouriteRoutes'));
 app.use('/api/v1', require('./routes/recommendationRoutes'));
 app.use('/api/v1', require('./routes/enquiryRoutes'));
+app.use('/api/v1', require('./routes/interactionRoutes'));
 
 // Root route welcome banner
 app.get('/', (req, res) => {
