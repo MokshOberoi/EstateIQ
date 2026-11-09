@@ -43,6 +43,7 @@ app.use(express.urlencoded({ extended: true, limit: '1mb' }));
 // ============================================================================
 
 app.use('/api/v1', healthRoutes);
+app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1', require('./routes/propertyRoutes'));
 app.use('/api/v1', require('./routes/propertyImageRoutes'));
 // Serve uploaded property images statically
@@ -50,7 +51,6 @@ app.use('/uploads/properties', express.static(path.join(__dirname, '../uploads/p
 app.use('/api/v1', require('./routes/leadRoutes'));
 app.use('/api/v1', require('./routes/recommendationRoutes'));
 app.use('/api/v1', require('./routes/enquiryRoutes'));
-app.use('/api/v1/auth', authRoutes);
 
 // Root route welcome banner
 app.get('/', (req, res) => {
