@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import AdminLeadPrediction from "../components/AdminLeadPrediction";
 import { apiRequest } from "../services/api";
 
 const formatCurrency = (val) => {
@@ -429,6 +430,7 @@ const DashboardPage = () => {
                     <th>User Identifier</th>
                     <th>Score</th>
                     <th>Classification</th>
+                    <th>AI Prediction</th>
                     <th>Views</th>
                     <th>Favourites</th>
                     <th>Enquiries</th>
@@ -450,6 +452,7 @@ const DashboardPage = () => {
                         <span style={{ fontSize: "0.8rem", color: "#888" }}>/ 100</span>
                       </td>
                       <td>{renderClassificationBadge(lead.classification)}</td>
+                      <td><AdminLeadPrediction lead={lead} /></td>
                       <td>{lead.total_views ?? 0}</td>
                       <td>{lead.total_favourites ?? 0}</td>
                       <td>{lead.total_enquiries ?? 0}</td>

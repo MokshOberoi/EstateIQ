@@ -6,7 +6,8 @@ const ALLOWED_SORT = ['score_high', 'score_low', 'recent', 'active'];
 
 /** Validate UUID string */
 function validateUuid(id) {
-  if (!uuidValidate(id)) {
+  const uuidRegex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
+  if (!uuidRegex.test(id)) {
     return { error: new Error('Invalid UUID format') };
   }
   return {};

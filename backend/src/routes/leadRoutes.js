@@ -16,15 +16,17 @@ const router = express.Router();
 // All lead routes require authentication
 router.use(authenticate);
 
+// Buyer (or any authenticated) own lead profile – placed before param routes
+router.get('/leads/me', getMyLeadProfile);
+
 // Admin only routes
 router.post('/leads/:userId/calculate', authorizeRoles('ADMIN'), calculateLead);
 router.get('/leads/:userId', authorizeRoles('ADMIN'), getLeadProfile);
 router.get('/leads', authorizeRoles('ADMIN'), listLeads);
 router.get('/leads/:userId/history', authorizeRoles('ADMIN'), getLeadHistory);
 
-// Buyer (or any authenticated) own lead profile
-router.get('/leads/me', getMyLeadProfile);
-
 // Predict lead classification via ML service (admin only)
 router.post('/leads/:userId/predict', authorizeRoles('ADMIN'), predictLead);
+
+module.exports = router;
 
