@@ -63,9 +63,22 @@ async function removeFavourite(userId, propertyId) {
   return { deletedId: delRes.rows[0].id };
 }
 
+/**
+ * Check if a property is favourited by the user.
+ */
+async function isFavourite(userId, propertyId) {
+  const res = await query(
+    'SELECT 1 FROM favourites WHERE user_id = $1 AND property_id = $2',
+    [userId, propertyId]
+  );
+  return res.rowCount > 0;
+}
+
 module.exports = {
   getMyFavourites,
   addFavourite,
   removeFavourite,
+  isFavourite,
 };
+
 
