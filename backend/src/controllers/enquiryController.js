@@ -3,6 +3,7 @@
 
 const { sendSuccess, sendError } = require('../utils/apiResponse');
 const enquiryService = require('../services/enquiryService');
+const leadService = require('../services/leadService');
 
 /**
  * POST /api/v1/enquiries
@@ -26,7 +27,14 @@ async function createEnquiry(req, res, next) {
       return sendError(res, result.message, 400);
     }
 
-    return sendSuccess(res, 'Enquiry submitted successfully', result.enquiry, 201);
+    // Recalculate lead profile after successful enquiry submission
+    const leadProfile = await leadService.calculateAndSaveLead(req.user.id);
+    return sendSuccess(
+      res,
+      'Enquiry submitted successfully',
+      { enquiry: result.enquiry, leadProfile },
+      201
+    );
   } catch (err) {
     next(err);
   }
