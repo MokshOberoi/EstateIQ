@@ -10,7 +10,46 @@ const PropertyDetailPage = () => {
   const [property, setProperty] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [favLoading, setFavLoading] = useState(false);
+  const [enquiryMsg, setEnquiryMsg] = useState('');
+  const [enquiryPhone, setEnquiryPhone] = useState('');
+  const [enquiryLoading, setEnquiryLoading] = useState(false);
+  const [enquirySuccess, setEnquirySuccess] = useState('');
+  const [enquiryError, setEnquiryError] = useState('');
+
+  const handleEnquirySubmit = async (e) => {
+    e.preventDefault();
+    setEnquirySuccess('');
+    setEnquiryError('');
+    const trimmedMsg = enquiryMsg.trim();
+    if (!trimmedMsg) {
+      setEnquiryError('Message is required');
+      return;
+    }
+    setEnquiryLoading(true);
+    try {
+      const resp = await apiRequest('/enquiries', {
+        method: 'POST',
+        body: JSON.stringify({
+          propertyId: property.id,
+          message: trimmedMsg,
+          phone: enquiryPhone.trim() || undefined,
+        }),
+      });
+      if (resp.ok && resp.data && resp.data.success) {
+        setEnquirySuccess(resp.data.message || 'Enquiry submitted successfully');
+        setEnquiryMsg('');
+        setEnquiryPhone('');
+      } else {
+        const err = resp.data?.error?.message ?? resp.data?.message ?? 'Failed to submit enquiry';
+        setEnquiryError(err);
+      }
+    } catch (err) {
+      const msg = err?.message || 'Error submitting enquiry';
+      setEnquiryError(msg);
+    } finally {
+      setEnquiryLoading(false);
+    }
+  };
   const [isFav, setIsFav] = useState(false);
 
   const { user } = useAuth();
@@ -164,6 +203,36 @@ const PropertyDetailPage = () => {
               </button>
             )}
             <Link to="/properties" className="btn-primary" style={{ marginTop: '1rem' }}>Back to Listings</Link>
+            {user && user.role === 'BUYER' && (
+              <div className="enquiry-section" style={{ marginTop: '2rem' }}>
+                <h3>Enquire Now</h3>
+                {enquirySuccess && <p className="success-message" style={{ color: 'green' }}>{enquirySuccess}</p>}
+                {enquiryError && <p className="error-message" style={{ color: 'red' }}>{enquiryError}</p>}
+                <form onSubmit={handleEnquirySubmit}>
+                  <div style={{ marginBottom: '0.5rem' }}>
+                    <textarea
+                      placeholder="Your message"
+                      value={enquiryMsg}
+                      onChange={(e) => setEnquiryMsg(e.target.value)}
+                      required
+                      style={{ width: '100%', height: '80px' }}
+                    />
+                  </div>
+                  <div style={{ marginBottom: '0.5rem' }}>
+                    <input
+                      type="text"
+                      placeholder="Phone (optional)"
+                      value={enquiryPhone}
+                      onChange={(e) => setEnquiryPhone(e.target.value)}
+                      style={{ width: '100%' }}
+                    />
+                  </div>
+                  <button type="submit" disabled={enquiryLoading} className="btn-primary">
+                    {enquiryLoading ? 'Sending...' : 'Send Enquiry'}
+                  </button>
+                </form>
+              </div>
+            )}
           </div>
         </div>
       </div>
