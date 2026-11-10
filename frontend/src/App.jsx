@@ -8,13 +8,14 @@ import PropertyDetailPage from "./pages/PropertyDetailPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import DashboardPage from "./pages/DashboardPage";
-import NotFoundPage from "./pages/NotFoundPage";
+import FavouritesPage from "./pages/FavouritesPage";
 import LeadProfilePage from "./pages/LeadProfilePage";
 import RecommendationsPage from "./pages/RecommendationsPage";
 
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import { AuthProvider } from "./context/AuthContext";
+import NotFoundPage from "./pages/NotFoundPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 import MyListingsPage from "./pages/MyListingsPage";
@@ -47,6 +48,11 @@ const App = () => (
         <Route
           path="/recommendations"
           element={<ProtectedRoute element={<RecommendationsPage />} />}
+        />
+
+        <Route
+          path="/favourites"
+          element={<ProtectedRoute element={<FavouritesPage />} allowedRoles={["BUYER"]} />}
         />
 
         <Route

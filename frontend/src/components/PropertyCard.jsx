@@ -30,9 +30,8 @@ const PropertyCard = ({ property, isFavourite, onFavouriteChange }) => {
     setIsProcessing(true);
     try {
       if (!isFav) {
-        const resp = await apiRequest('/favourites', {
+        const resp = await apiRequest(`/favourites/${property.id}`, {
           method: 'POST',
-          body: JSON.stringify({ propertyId: property.id }),
         });
         if (resp.ok) {
           setIsFav(true);
@@ -41,7 +40,7 @@ const PropertyCard = ({ property, isFavourite, onFavouriteChange }) => {
             event_type: 'FAVOURITE_ADD',
             property_id: property.id,
             metadata: { source: 'property_card' },
-          }).catch(() => {});
+          }).catch(() => { });
         }
       } else {
         const resp = await apiRequest(`/favourites/${property.id}`, {
@@ -54,7 +53,7 @@ const PropertyCard = ({ property, isFavourite, onFavouriteChange }) => {
             event_type: 'FAVOURITE_REMOVE',
             property_id: property.id,
             metadata: { source: 'property_card' },
-          }).catch(() => {});
+          }).catch(() => { });
         }
       }
     } catch (_) {

@@ -1,14 +1,19 @@
-// src/pages/PropertyDetailPage.jsx
 import React, { useEffect, useState, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { apiRequest } from '../services/api';
 import { trackInteraction } from '../services/interactionTracking';
+import { useAuth } from '../context/AuthContext';
+
 
 const PropertyDetailPage = () => {
   const { id } = useParams();
   const [property, setProperty] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [favLoading, setFavLoading] = useState(false);
+  const [isFav, setIsFav] = useState(false);
+
+  const { user } = useAuth();
 
   // Ref to store mount timestamp and ensure single send
   const startTimeRef = useRef(null);
@@ -31,6 +36,8 @@ const PropertyDetailPage = () => {
       sentRef.current = true;
     };
   }, [id]);
+
+  // Fetch property
   useEffect(() => {
     const fetchProperty = async () => {
       try {
@@ -48,6 +55,40 @@ const PropertyDetailPage = () => {
     };
     fetchProperty();
   }, [id]);
+
+  // Check favourite status for BUYER
+  useEffect(() => {
+    const checkFav = async () => {
+      if (!user || user.role !== 'BUYER' || !property) return;
+      setFavLoading(true);
+      try {
+        const resp = await apiRequest(`/favourites/${property.id}/check`);
+        if (resp.ok && resp.data && resp.data.success) {
+          setIsFav(Boolean(resp.data?.data?.favourited));
+        }
+      } catch (_) {}
+      setFavLoading(false);
+    };
+    checkFav();
+  }, [user, property]);
+
+  const toggleFavourite = async () => {
+    if (!property) return;
+    setFavLoading(true);
+    try {
+      if (!isFav) {
+        const resp = await apiRequest(`/favourites/${property.id}`, {
+          method: 'POST',
+        });
+        if (resp.ok) setIsFav(true);
+      } else {
+        const resp = await apiRequest(`/favourites/${property.id}`, {
+          method: 'DELETE',
+        });
+        if (resp.ok) setIsFav(false);
+      }
+    } catch (_) {} finally { setFavLoading(false); }
+  };
 
   if (loading) {
     return (
@@ -68,13 +109,9 @@ const PropertyDetailPage = () => {
   }
 
   const location = property.city && property.state ? `${property.city}, ${property.state}` : property.location || '';
-  // Determine primary image safely
   const primaryImgObj = property.images?.find(img => img.is_primary) || property.images?.[0];
   const imageUrl = primaryImgObj?.image_url || '';
-
-  // Format price as USD currency
   const formattedPrice = property.price ? new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(parseFloat(property.price)) : '';
-
 
   return (
     <section className="page-section">
@@ -116,7 +153,17 @@ const PropertyDetailPage = () => {
             <p><strong>Description:</strong> {property.description || 'No description provided.'}</p>
             <p><strong>Bedrooms:</strong> {property.bedrooms ?? 'N/A'}</p>
             <p><strong>Bathrooms:</strong> {property.bathrooms ?? 'N/A'}</p>
-            <Link to="/properties" className="btn-primary" style={{marginTop:'1rem'}}>Back to Listings</Link>
+            {user && user.role === 'BUYER' && (
+              <button
+                onClick={toggleFavourite}
+                disabled={favLoading}
+                className="btn-primary"
+                style={{ marginTop: '1rem' }}
+              >
+                {favLoading ? 'Processing...' : isFav ? 'Remove from Favourites' : 'Add to Favourites'}
+              </button>
+            )}
+            <Link to="/properties" className="btn-primary" style={{ marginTop: '1rem' }}>Back to Listings</Link>
           </div>
         </div>
       </div>
