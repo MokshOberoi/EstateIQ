@@ -14,6 +14,8 @@ import RecommendationsPage from "./pages/RecommendationsPage";
 import MyEnquiriesPage from "./pages/MyEnquiriesPage";
 import MyListingsPage from "./pages/MyListingsPage";
 import AgentEnquiriesPage from "./pages/AgentEnquiriesPage";
+import AdminLeadsPage from "./pages/AdminLeadsPage";
+import AdminLeadDetailPage from "./pages/AdminLeadDetailPage";
 import CreatePropertyPage from "./pages/CreatePropertyPage";
 import EditPropertyPage from "./pages/EditPropertyPage";
 
@@ -42,6 +44,26 @@ const App = () => (
         <Route path="/properties/create" element={<ProtectedRoute element={<CreatePropertyPage />} allowedRoles={["AGENT", "ADMIN"]} />} />
         <Route path="/properties/:id/edit" element={<ProtectedRoute element={<EditPropertyPage />} allowedRoles={["AGENT", "ADMIN"]} />} />
         <Route path="/agent-enquiries" element={<ProtectedRoute element={<AgentEnquiriesPage />} allowedRoles={["AGENT", "ADMIN"]} />} />
+        <Route
+          path="/admin/leads"
+          element={
+            <ProtectedRoute
+              element={<AdminLeadsPage />}
+              allowedRoles={["ADMIN"]}
+            />
+          }
+        />
+
+        <Route
+          path="/admin/leads/:userId"
+          element={
+            <ProtectedRoute
+              element={<AdminLeadDetailPage />}
+              allowedRoles={["ADMIN"]}
+            />
+          }
+        />
+
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </main>

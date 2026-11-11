@@ -32,6 +32,7 @@ const Navbar = () => {
                   <li><NavLink to="/my-listings">My Listings</NavLink></li>
                   <li><NavLink to="/properties/create">Add Property</NavLink></li>
                   <li><NavLink to="/agent-enquiries">Agent Enquiries</NavLink></li>
+          <li><NavLink to="/admin/leads">Lead Intelligence</NavLink></li>
                 </>
               )}
               <li><button onClick={handleLogout} className="btn-link">Logout</button></li>
