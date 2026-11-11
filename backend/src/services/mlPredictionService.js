@@ -10,7 +10,7 @@ async function predict(features) {
   if (!baseUrl) {
     throw new Error('ML_SERVICE_URL is not defined in environment');
   }
-  const url = `${baseUrl.replace(/\/\+$/, '')}/predict`;
+  const url = `${baseUrl.replace(/\/$/, '')}/predict`;
 
   // Node >=18 provides native fetch; otherwise require node-fetch (not installed).
   const fetchFn = typeof fetch === 'function' ? fetch : require('node-fetch');
