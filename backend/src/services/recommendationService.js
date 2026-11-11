@@ -241,11 +241,19 @@ async function listRecommendations(userId, page = 1, limit = 20) {
   const countRes = await query(`SELECT COUNT(*) FROM recommendations WHERE user_id = $1 AND algorithm = 'CONTENT_BASED'`, [userId]);
   const total = Number(countRes.rows[0].count);
   const dataRes = await query(
-    `SELECT r.*, p.* FROM recommendations r
-        JOIN properties p ON p.id = r.property_id
-       WHERE r.user_id = $1 AND r.algorithm = 'CONTENT_BASED'
-     ORDER BY r.rank ASC
-     LIMIT $2 OFFSET $3`,
+    `SELECT
+    r.*,
+    p.*,
+    pi.image_url AS image_url
+  FROM recommendations r
+  JOIN properties p ON p.id = r.property_id
+  LEFT JOIN property_images pi
+    ON pi.property_id = p.id
+    AND pi.is_primary = TRUE
+  WHERE r.user_id = $1
+    AND r.algorithm = 'CONTENT_BASED'
+  ORDER BY r.rank ASC
+  LIMIT $2 OFFSET $3`,
     [userId, limit, offset]
   );
   return { rows: dataRes.rows, total };

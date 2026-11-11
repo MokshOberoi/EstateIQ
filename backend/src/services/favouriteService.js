@@ -10,12 +10,19 @@ const { sendError } = require('../utils/apiResponse');
  */
 async function getMyFavourites(userId) {
   const sql = `
-    SELECT f.id AS favourite_id, f.created_at, p.*
-    FROM favourites f
-    JOIN properties p ON p.id = f.property_id
-    WHERE f.user_id = $1
-    ORDER BY f.created_at DESC
-  `;
+  SELECT
+    f.id AS favourite_id,
+    f.created_at AS favourited_at,
+    p.*,
+    pi.image_url AS image_url
+  FROM favourites f
+  JOIN properties p ON p.id = f.property_id
+  LEFT JOIN property_images pi
+    ON pi.property_id = p.id
+    AND pi.is_primary = TRUE
+  WHERE f.user_id = $1
+  ORDER BY f.created_at DESC
+`;
   const res = await query(sql, [userId]);
   return res.rows;
 }

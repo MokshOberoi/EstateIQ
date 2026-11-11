@@ -15,7 +15,7 @@ export const properties = [
     title: 'Penthouse in Downtown Manhattan',
     location: 'New York, USA',
     price: '$4,800,000',
-    img: 'https://images.unsplash.com/photo-1560185127-6e7d8c0e1f5f?auto=format&fit=crop&w=800&q=80',
+    img: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=800&q=80',
     description: 'Luxury penthouse with skyline views, private elevator, and rooftop garden.',
     bedrooms: 3,
     bathrooms: 2,

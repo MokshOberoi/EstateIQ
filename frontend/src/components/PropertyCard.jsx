@@ -1,7 +1,7 @@
 // src/components/PropertyCard.jsx
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { apiRequest } from '../services/api';
+import { apiRequest, resolveImageUrl } from '../services/api';
 import { trackInteraction } from '../services/interactionTracking';
 import { useAuth } from '../context/AuthContext';
 
@@ -63,7 +63,7 @@ const PropertyCard = ({ property, isFavourite, onFavouriteChange }) => {
     }
   };
 
-  const imageUrl = property.image_url || property.img || '';
+  const imageUrl = resolveImageUrl(property.image_url || property.img || '');
   const location = property.city && property.state
     ? `${property.city}, ${property.state}`
     : property.location || property.city || '';
