@@ -23,7 +23,7 @@ const Navbar = () => {
             <>
               <li><NavLink to="/dashboard">Dashboard</NavLink></li>
               <li><NavLink to="/lead-profile">Lead Profile</NavLink></li>
-{user.role === 'BUYER' && (<li><NavLink to="/favourites">Favourites</NavLink></li>)}
+{user.role === 'BUYER' && (<>                <li><NavLink to="/favourites">Favourites</NavLink></li>                <li><NavLink to="/my-enquiries">My Enquiries</NavLink></li>              </>)}
 
               <li><NavLink to="/recommendations">Recommendations</NavLink></li>
               {/* Agent/Admin management links */}

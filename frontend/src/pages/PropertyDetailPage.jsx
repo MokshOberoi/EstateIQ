@@ -51,6 +51,7 @@ const PropertyDetailPage = () => {
     }
   };
   const [isFav, setIsFav] = useState(false);
+  const [favLoading, setFavLoading] = useState(false);
 
   const { user } = useAuth();
 
