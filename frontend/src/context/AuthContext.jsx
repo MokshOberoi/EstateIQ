@@ -157,9 +157,20 @@ export const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
+    // Restore any persisted auth state on initial load
     restoreAuth();
+    // Listen for global auth‑expiration events triggered by the API layer
+    const handleAuthExpired = () => {
+      clearAuth();
+      navigate('/login');
+    };
+    window.addEventListener('estateiq-auth-expired', handleAuthExpired);
+    return () => {
+      window.removeEventListener('estateiq-auth-expired', handleAuthExpired);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
 
   return (
     <AuthContext.Provider
