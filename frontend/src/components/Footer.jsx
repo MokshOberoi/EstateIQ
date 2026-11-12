@@ -1,11 +1,14 @@
-import React from 'react';
+import BrandLogo from './BrandLogo';
+import BrandTagline from './BrandTagline';
+
 
 
 const Footer = () => (
   <footer className="footer">
     <div className="container footer-content">
       <div className="footer-section">
-        <h4>EstateIQ</h4>
+        <BrandLogo />
+        <BrandTagline />
         <p>Luxury‑focused real‑estate platform with subtle AI assistance.</p>
       </div>
       <div className="footer-section">
@@ -25,7 +28,7 @@ const Footer = () => (
       </div>
     </div>
     <div className="footer-bottom">
-      © {new Date().getFullYear()} EstateIQ. All rights reserved.
+      © {new Date().getFullYear()} PropIntent. All rights reserved.
     </div>
   </footer>
 );

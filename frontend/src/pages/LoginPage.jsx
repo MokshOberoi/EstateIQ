@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import BrandLogo from '../components/BrandLogo';
+import BrandTagline from '../components/BrandTagline';
 import { useAuth } from '../context/AuthContext';
 
 const LoginPage = () => {
@@ -22,7 +24,11 @@ const LoginPage = () => {
   return (
     <section className="page-section">
       <div className="container form-container">
-        <h2 className="section-title">Login</h2>
+        <div style={{ textAlign: 'center', marginBottom: '1rem' }}>
+  <BrandLogo />
+  <BrandTagline />
+</div>
+<h2 className="section-title">Login</h2>
         <form onSubmit={handleSubmit} className="auth-form">
           <label>
             Email
